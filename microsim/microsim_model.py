@@ -13,6 +13,7 @@ import time
 from typing import List, Dict
 import pickle
 import copy
+import random
 
 
 class Microsim:
@@ -30,6 +31,7 @@ class Microsim:
                  scen_dir: str = "default",
                  output: bool = True,
                  output_every_iteration=False,
+                 random_seed: float = None,
                  hazard_individual_multipliers: Dict[str, float] = {},
                  hazard_location_multipliers: Dict[str, float] = {},
                  risk_multiplier: float = 1.0,
@@ -49,6 +51,8 @@ class Microsim:
         :param output: Whether to create files to store the results (default True)
         :param output_every_iteration: Whether to create files to store the results at every iteration rather than
             just at the end (default False)
+        :param random_seed: A optional random seed to use when creating the class instance. If None then
+            the current time is used.
         :param hazard_individual_multipliers: A dictionary containing multipliers that can make particular disease
             statuses more hazardous to the locations that the people visit. See 'hazard_individual_multipliers' section
             of the parameters file (e.g. model_parameters/default.yml). Default is {} which means the multiplier will
@@ -66,6 +70,7 @@ class Microsim:
         self.r_script_dir = r_script_dir
         self.output = output
         self.output_every_iteration = output_every_iteration
+        self.random = random.Random(random_seed)
 
         Microsim.DATA_DIR = data_dir  # TODO (minor) pass the data_dir to class functions directly so no need to have it defined at class level
         self.DATA_DIR = data_dir

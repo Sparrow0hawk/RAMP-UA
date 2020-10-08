@@ -21,7 +21,6 @@ pd.set_option('display.expand_frame_repr', False)  # Don't wrap lines when displ
 # pd.set_option('display.width', 0)  # Automatically find the best width
 import numpy as np
 import os
-import random
 import warnings
 from collections.abc import Iterable  # drop `.abc` with Python 2.7 or lower
 from typing import List, Dict
@@ -37,7 +36,7 @@ class PopulationInitialisation:
     def __init__(self,
                  data_dir: str = "./data/",
                  lockdown_file: str = "google_mobility_lockdown_daily.csv",
-                 random_seed: float = None, read_data: bool = True,
+                 read_data: bool = True,
                  testing: bool = False,
                  debug=False,
                  use_cache=True,
@@ -49,8 +48,6 @@ class PopulationInitialisation:
         :param data_dir: A data directory from which to read the source data
         :param lockdown_file: The file to use for estimating mobility under lockdown, or don't do any lockdown
             if this is an empty string.
-        :param random_seed: A optional random seed to use when creating the class instance. If None then
-            the current time is used.
         :param read_data: Optionally don't read in the data when instantiating this Microsim (useful
             in debugging).
         :param testing: Optionally turn off some exceptions and replace them with warnings (only good when testing!)
@@ -70,7 +67,6 @@ class PopulationInitialisation:
 
         self.lockdown_file = lockdown_file
         self.do_lockdown = False if (lockdown_file == "") else True
-        self.random = random.Random(random_seed)
         PopulationInitialisation.debug = debug
         self.use_cache = use_cache
         PopulationInitialisation.testing = testing
