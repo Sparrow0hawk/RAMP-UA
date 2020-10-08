@@ -174,6 +174,7 @@ def main(parameters_file, no_parameters_file, iterations, scenario, data_dir, ou
         # store in cache so we can load later
         cache.store_in_cache(individuals, activity_locations, time_activity_multiplier)
     else:  # load from cache
+        print("Using cache to load previously-initialised model")
         individuals, activity_locations, time_activity_multiplier = cache.read_from_cache()
 
     # Select which model implementation to run

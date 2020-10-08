@@ -29,7 +29,7 @@ class InitialisationCache:
             time_activity_multiplier = pd.read_pickle(self.time_activity_multiplier_filepath)
             return individuals, activity_locations, time_activity_multiplier
         else:
-            print("\nWARNING: attempting to load files from cache but they do not exist!")
+            raise Exception("Attempting to load files from cache but they do not exist!")
 
     def cache_files_exist(self):
         files_exist = [os.path.exists(cache_file) for cache_file in self.all_cache_filepaths]
