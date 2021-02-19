@@ -98,6 +98,18 @@ The OpenCL model has a more limited dashboard (this may be extended soon), which
 $ python microsim/opencl/ramp/opencl_dashboard.py
 ```
 
+## Docker
+
+A [Docker](https://www.docker.com/) container is available for this project. This allows you to pull a Docker image of the RAMP-UA project in an uninitialised state from which you can run the `microsim/main.py` script and pass it additional options. The first time the container runs it will fetch the default data source into the container which will increase the total disk space it uses.
+
+```bash
+# run the python model
+$ docker run -d rampua:latest 
+
+# run the openCL CPU model 
+$ docker run -d rampua:latest -ocl
+```
+
 ## Creating releases
 This repository takes advantage of a GitHub action for [creating tagged releases](https://github.com/marvinpinto/action-automatic-releases) using [semantic versioning](https://semver.org/).
 
