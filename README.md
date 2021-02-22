@@ -103,11 +103,53 @@ $ python microsim/opencl/ramp/opencl_dashboard.py
 A [Docker](https://www.docker.com/) container is available for this project. This allows you to pull a Docker image of the RAMP-UA project in an uninitialised state from which you can run the `microsim/main.py` script and pass it additional options. The first time the container runs it will fetch the default data source into the container which will increase the total disk space it uses.
 
 ```bash
+# build the container
+$ git clone Urban-Analytics/RAMP-UA
+
+$ cd RAMP-UA
+
+$ docker build . -t rampua:latest
+
 # run the python model
 $ docker run -d rampua:latest 
 
 # run the openCL CPU model 
 $ docker run -d rampua:latest -ocl
+```
+
+### Egress data from container
+
+There are two choices to get output data from the container.
+
+#### 1. Mount the RAMP-UA repository within the Docker container
+
+This step allows you to run the container and generate outputs in one step rather than option 2 which requires you to run an additional docker command to copy data out of the container.
+
+To start, you'll to have the container image available on your machine and have cloned the RAMP-UA repository on your host machine.
+
+```bash
+# first check we have the rampua image locally
+$ docker images 
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+rampua        latest    aa3195bdfe3d   3 days ago      5.12GB
+
+# navigate into the RAMP-UA repository locally
+$ cd RAMP-UA
+
+# run the container and mount a volume from the host machine RAMP-UA directory
+# to the RAMP-UA directory in the container
+$ docker run -v /home/user/Code/RAMP-UA/:/app/RAMP-UA/ rampua:latest -ocl
+```
+
+Once this runs you will find the output directory within `devon_data` containing the outputs of the model run.
+
+#### 2. Use `docker cp` to copy files out of the container
+
+The other option for getting model results out of the container is to use the [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/). After a successful `docker run` execution you can retrieve data from the container by doing:
+
+```bash
+# where CONTAINER is the name of the container
+$ docker cp CONTAINER:/app/RAMP-UA/devon_data/output /path/to/desired/destination
 ```
 
 ## Creating releases
